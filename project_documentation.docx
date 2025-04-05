@@ -1,0 +1,49 @@
+# Project Documentation for Meat Shop
+
+## Chapter 1: Introduction
+The Meat Shop project is a comprehensive Django-based web application designed to streamline the online management of a meat shop. This application serves as a platform for both customers and shop owners, providing an intuitive interface for browsing, purchasing, and managing meat products.
+
+### Purpose
+The primary purpose of the Meat Shop application is to enhance the shopping experience for customers by offering a user-friendly interface that allows them to easily navigate through various meat products. Additionally, it aims to assist shop owners in managing their inventory, processing orders, and maintaining customer relationships effectively.
+
+### Key Features
+- **User Authentication**: The application allows users to create accounts, log in securely, and manage their profiles. This feature ensures that customers can save their preferences and order history for a personalized shopping experience.
+- **Product Browsing**: Users can explore a wide range of meat products categorized by type, with detailed descriptions, images, and pricing information. This feature helps customers make informed purchasing decisions.
+- **Shopping Cart Functionality**: The application includes a robust shopping cart system that enables users to add products, adjust quantities, and remove items as needed. This functionality ensures a seamless shopping experience.
+- **Order Management**: Customers can place orders directly through the application, view their order history, and track the status of their orders. This feature enhances transparency and customer satisfaction.
+- **Admin Interface**: The application provides an administrative interface for shop owners to manage products, view orders, and analyze sales data. This feature empowers owners to make data-driven decisions for their business.
+
+### Target Audience
+The Meat Shop application is designed for both consumers looking to purchase quality meat products and shop owners seeking an efficient way to manage their business operations. By catering to these two groups, the application aims to create a mutually beneficial environment that fosters customer loyalty and business growth.
+
+In summary, the Meat Shop project combines modern web technologies with user-centric design principles to create a powerful tool for meat shop management. It not only simplifies the purchasing process for customers but also equips shop owners with the necessary tools to run their businesses effectively.
+
+## Chapter 2: Project Structure
+- **accounts**: Manages user authentication and profiles.
+- **cart**: Handles shopping cart functionality.
+- **orders**: Manages order processing and order history.
+- **shop**: Contains product listings and categories.
+
+## Chapter 3: Models
+- **Profile** (accounts/models.py): Stores user profile information.
+- **Order** (orders/models.py): Manages order details and status.
+- **OrderItem** (orders/models.py): Represents individual items in an order.
+- **Category** (shop/models.py): Defines product categories.
+- **Product** (shop/models.py): Contains details about products.
+
+## Chapter 4: Views
+- **Order Creation**: Handles the creation of new orders.
+- **Product Listing**: Displays available products and categories.
+- **Cart Management**: Manages adding and removing products from the cart.
+
+## Chapter 5: Templates
+- **Base Template**: The main layout for the application.
+- **Product Detail**: Displays detailed information about a product.
+- **Order History**: Shows the user's past orders.
+
+## Chapter 6: Usage
+To run the project, use the following command:
+```
+python manage.py runserver
+```
+Access the application at `http://127.0.0.1:8000/`.

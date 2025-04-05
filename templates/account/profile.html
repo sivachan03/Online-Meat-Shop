@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header bg-meat text-white">
+            <h2>My Profile</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Account Information</h5>
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Contact Information</h5>
+                    {% if user.profile %}
+                        <p><strong>Phone:</strong> {{ user.profile.phone|default:"Not provided" }}</p>
+                        <p><strong>Address:</strong> {{ user.profile.address|default:"Not provided" }}</p>
+                        <p><strong>City:</strong> {{ user.profile.city|default:"Not provided" }}, {{ user.profile.postal_code|default:"" }}</p>
+                    {% else %}
+                        <p>No profile information available.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{% url 'edit' %}" class="btn btn-meat">Edit Profile</a>
+                <a href="{% url 'orders:order_history' %}" class="btn btn-outline-secondary ms-2">View Orders</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

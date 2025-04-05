@@ -1,0 +1,141 @@
+{% extends "base.html" %} {% block title %} {% if category %}{{ category.name
+}}{% else %}Products{% endif %} {% endblock %} {% block content %}
+<div class="row">
+  <div class="col-md-3">
+    <div class="card mb-4">
+      <div class="card-header bg-meat text-white">
+        <h4>Categories</h4>
+      </div>
+      <div class="list-group list-group-flush">
+        <a
+          href="{% url 'shop:product_list' %}"
+          class="list-group-item list-group-item-action {% if not category %}active{% endif %}"
+        >
+          All Products
+        </a>
+        {% for c in categories %}
+        <a
+          href="{{ c.get_absolute_url }}"
+          class="list-group-item list-group-item-action {% if category.slug == c.slug %}active{% endif %}"
+        >
+          {{ c.name }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="card">
+      <div class="card-header bg-meat text-white">
+        <h4>
+          {% if category %}{{ category.name }}{% else %}All Products{% endif %}
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div id="treemap" style="width: 100%; height: 400px"></div>
+          <script>
+            const categoryProductCounts = JSON.parse(
+              document.getElementById("category-product-counts").textContent
+            );
+            // D3.js code to create the treemap visualization
+            const width = document.getElementById("treemap").clientWidth;
+            const height = 400;
+
+            const data = {
+              name: "Categories",
+              children: Object.keys(categoryProductCounts).map((name) => ({
+                name: name,
+                size: categoryProductCounts[name],
+              })),
+            };
+
+            const treemapLayout = d3.treemap().size([width, height]).padding(1);
+
+            const root = d3.hierarchy(data).sum((d) => d.size);
+
+            treemapLayout(root);
+
+            const svg = d3
+              .select("#treemap")
+              .append("svg")
+              .attr("width", width)
+              .attr("height", height);
+
+            const cell = svg
+              .selectAll("g")
+              .data(root.leaves())
+              .enter()
+              .append("g")
+              .attr("transform", (d) => `translate(${d.x0},${d.y0})`);
+
+            cell
+              .append("rect")
+              .attr("id", (d) => d.data.name)
+              .attr("width", (d) => d.x1 - d.x0)
+              .attr("height", (d) => d.y1 - d.y0)
+              .attr("fill", "#8B0000");
+
+            cell
+              .append("text")
+              .attr("clip-path", (d) => `url(#clip-${d.data.name})`)
+              .selectAll("tspan")
+              .data((d) => d.data.name.split(/(?=[A-Z])/g))
+              .enter()
+              .append("tspan")
+              .attr("x", 4)
+              .attr("y", (d, i) => 13 + i * 10)
+              .text((d) => d);
+          </script>
+          {% if products %} {% for product in products %}
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <a href="{{ product.get_absolute_url }}">
+                {% if product.image %}
+                <img
+                  src="{{ product.image.url }}"
+                  class="card-img-top"
+                  alt="{{ product.name }}"
+                />
+                {% else %}
+                <img
+                  src="/media/no-image.jpg"
+                  class="card-img-top"
+                  alt="No image available"
+                />
+                {% endif %}
+              </a>
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a
+                    href="{{ product.get_absolute_url }}"
+                    class="text-decoration-none text-dark"
+                  >
+                    {{ product.name }}
+                  </a>
+                </h5>
+                <p class="card-text text-muted">{{ product.weight }}kg</p>
+                <p class="card-text meat-primary fw-bold">
+                  ${{ product.price }}
+                </p>
+              </div>
+              <div class="card-footer bg-transparent border-top-0">
+                <a
+                  href="{{ product.get_absolute_url }}"
+                  class="btn btn-meat w-100"
+                  >View Details</a
+                >
+              </div>
+            </div>
+          </div>
+          {% endfor %} {% else %}
+          <div class="col-12">
+            <p>No products found in this category.</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

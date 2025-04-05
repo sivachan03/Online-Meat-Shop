@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                {% else %}
+                    <img src="/media/no-image.jpg" class="card-img-top" alt="No image available">
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-meat text-white">
+                    <h2>{{ product.name }}</h2>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <a href="{{ product.category.get_absolute_url }}" class="text-decoration-none">
+                            {{ product.category }}
+                        </a>
+                    </p>
+                    <p class="card-text">Weight: {{ product.weight }}kg</p>
+                    <p class="card-text">{{ product.description|linebreaks }}</p>
+                    <p class="card-text meat-primary fw-bold fs-3">${{ product.price }}</p>
+                    
+                    <form action="{% url 'cart:cart_add' product.id %}" method="post" class="mt-4">
+                        {{ cart_product_form }}
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-meat btn-lg mt-2">Add to cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
